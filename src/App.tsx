@@ -5,6 +5,7 @@ import Login from './components/Login';
 import DashBoard from './components/Dashboard';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Employee } from './components/Dashboard';
+import NotFound from './components/NotFound'; 
 
 function App() {
   const [logged, setLogged] = useState(false);
@@ -50,6 +51,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Login onLogin={handleLogin} />} />
             <Route path="/employee/dash" element={<DashBoard employee={employee} />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </div>
