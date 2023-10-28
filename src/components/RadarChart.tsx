@@ -1,9 +1,10 @@
 import  { useState } from 'react';
 import { Chart } from 'primereact/chart';
+import { ChartData } from './Dashboard';
 
-export const RadarChart = () => {
+export const RadarChart: React.FC<ChartData> = ({labels, data}) => {  
     const [chartData] = useState({
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+        labels: labels,
         datasets: [
             {
                 label: 'Skills',
@@ -13,7 +14,7 @@ export const RadarChart = () => {
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
                 pointHoverBorderColor: 'rgba(179,181,198,1)',
-                data: [65, 59, 90, 81, 56, 55, 40]
+                data: data
             }
         ]
     });
@@ -43,7 +44,9 @@ export const RadarChart = () => {
 
     return (
         <div className="card flex justify-content-center">
-            <Chart type="radar" data={chartData} options={lightOptions} style={{ position: 'relative', width: '60%' }} />
+            <Chart className='center-chart' type="radar" data={chartData} options={lightOptions} style={{ position: 'relative', width: '80%' }} />
         </div>
     );
 }
+
+    

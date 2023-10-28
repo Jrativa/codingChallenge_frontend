@@ -37,3 +37,8 @@ label {
   font-weight: 600;
   color: rgb(34, 34, 34);
 }
+.center-chart{
+  position: relative;
+  width: 57% ;
+  margin-left:10%;
+}

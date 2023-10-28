@@ -15,6 +15,14 @@ export type Employee = {
     department: string,
     salary: number
 }
+interface Skill {
+    name: string;
+    level: number;
+  }
+export interface ChartData {
+    labels: string[];
+    data: number[];
+  }
 
 interface DashBoardProps {
   employee?: Employee;
@@ -44,20 +52,26 @@ const DashBoard: React.FC<DashBoardProps> = ({ }) => {
     const storedEmployee = localStorage.getItem('employee');
         if (storedEmployee!==null) {
             const employee = JSON.parse(storedEmployee);
-            console.log(typeof employee)
+            
+            const labels: string[] = employee.skills.map((skill: Skill) => skill.name);
+            // Esto devolverá un array de nombres: ["Js", "Ts", "React", "Docker", "AWS"]
+
+            const data: number[] = employee.skills.map((skill: Skill) => skill.level);
+            // Esto devolverá un array de niveles: [5, 4, 4, 2, 3]
+                          
         
         return (
             <div className="container py-5">
                 <div className="row">
                     <div className="col-lg-4">
-                    <div className="card mb-4">
+                    <div className="card mb-4 row">
                         <div className="card-body text-center">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle img-fluid" style={{ width: '150px' }} />
                         <h5 className="my-3">{employee.first_name} {employee.last_name}</h5>
                         <p className="text-muted mb-1">{employee.position}</p>
                         <p className="text-muted mb-1">{employee.department}</p>
                         </div>
-                        <RadarChart />
+                        <RadarChart labels={labels} data={data}/>
                     </div>  
                     
                     </div>
@@ -73,6 +87,8 @@ const DashBoard: React.FC<DashBoardProps> = ({ }) => {
                         <DashBoardData title='Email' description={employee.email}/>
                         <hr />
                         <DashBoardData title='Date of birth' description={employee.date_of_birth}/>
+                        <hr />
+                        <DashBoardData title='Position' description={employee.position}/>
                         <hr />
                         <DashBoardData title='Date of hire' description={employee.date_of_hire}/>
                         <hr />
