@@ -48,7 +48,7 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path='/login' element={<Login onLogin={handleLogin} />} />
+            <Route path='/' element={<Login onLogin={handleLogin} />} />
             <Route path="/employee/dash" element={<DashBoard employee={employee} />} />
           </Routes>
         </BrowserRouter>
