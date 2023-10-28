@@ -5,7 +5,6 @@ FROM node:18.16
 WORKDIR /app
 # Copia los archivos de la aplicación en el contenedor
 COPY package.json .
-COPY yarn.lock .
 
 
 # Instala las dependencias de la aplicación
