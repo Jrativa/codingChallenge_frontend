@@ -6,10 +6,13 @@ import DashBoard from './components/Dashboard';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Employee } from './components/Dashboard';
 import NotFound from './components/NotFound'; 
+import { Modal, Button } from 'react-bootstrap';
 
 function App() {
   const [logged, setLogged] = useState(false);
   const [employee, setEmployee] = useState<Employee>();
+  const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (logged && employee) {
@@ -17,11 +20,10 @@ function App() {
       console.log('Datos del empleado:', employee);
       localStorage.setItem('employee', JSON.stringify(employee));
       window.location.href = "/employee/dash";
-      // Aquí puedes realizar otras operaciones cuando el usuario esté autenticado
     }
   }, [logged, employee]);
 
-  const handleLogin = (formData:FormData) => {
+  const handleLogin = (formData: FormData) => {
     fetch('http://localhost:8000/login', {
       method: 'POST',
       body: formData,
@@ -33,16 +35,22 @@ function App() {
             setLogged(true);
             setEmployee(data.employee);
           } else {
-            console.error('Error al iniciar sesión');
+            setError('Email or password incorrect');
+            setShowModal(true);
           }
         } else {
-          console.error('Error al iniciar sesión');
+          setError('Email or password incorrect');
+          setShowModal(true);
         }
       })
       .catch((error) => {
+        setError('Network Error');
+        setShowModal(true);
         console.error('Error de red:', error);
       });
   };
+
+  const handleClose = () => setShowModal(false);
 
   return (
     <>
@@ -55,6 +63,18 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
+
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{error}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }
